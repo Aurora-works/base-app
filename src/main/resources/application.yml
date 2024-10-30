@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: base-app
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/base_app_db
+    username: base_app_root
+    password:
+    hikari:
+      connection-timeout: 10000
+      keepalive-time: 60000
+      maximum-pool-size: 4
+    type: com.zaxxer.hikari.HikariDataSource
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password:
+      database: 1
+server:
+  port: 65002
+  servlet:
+    context-path: /base-app
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+      update-strategy: not_null
+    banner: false
+  type-aliases-package: org.aurora.base.app.entity
+  type-aliases-super-type: org.aurora.base.app.entity.BaseEntity

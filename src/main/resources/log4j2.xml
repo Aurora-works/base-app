@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- https://logging.apache.org/log4j/2.x/index.html -->
+<Configuration xmlns="https://logging.apache.org/xml/ns"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="https://logging.apache.org/xml/ns https://logging.apache.org/xml/ns/log4j-config-2.xsd"
+               status="INFO">
+
+    <Properties>
+        <Property name="console_pattern" value="%d{ABSOLUTE} [%p] [%t] %m%n"/>
+        <Property name="file_pattern" value="%d [%p] [%t] %m%n"/>
+        <Property name="file_dir" value="../logs/base-app"/>
+    </Properties>
+
+    <Appenders>
+
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${console_pattern}"/>
+        </Console>
+
+        <RollingFile name="file_info" fileName="${file_dir}/info.log" filePattern="${file_dir}/info/%d{yyyy-MM-dd}-%i.info.log.gz">
+            <PatternLayout pattern="${file_pattern}"/>
+            <DefaultRolloverStrategy fileIndex="nomax"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="50MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="file_warn" fileName="${file_dir}/warn.log" filePattern="${file_dir}/warn/%d{yyyy-MM-dd}-%i.warn.log.gz">
+            <PatternLayout pattern="${file_pattern}"/>
+            <DefaultRolloverStrategy fileIndex="nomax"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="50MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="file_error" fileName="${file_dir}/error.log" filePattern="${file_dir}/error/%d{yyyy-MM-dd}-%i.error.log.gz">
+            <PatternLayout pattern="${file_pattern}"/>
+            <DefaultRolloverStrategy fileIndex="nomax"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="50MB"/>
+            </Policies>
+        </RollingFile>
+
+    </Appenders>
+
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="file_info" level="INFO"/>
+            <AppenderRef ref="file_warn" level="WARN"/>
+            <AppenderRef ref="file_error" level="ERROR"/>
+        </Root>
+    </Loggers>
+
+</Configuration>
