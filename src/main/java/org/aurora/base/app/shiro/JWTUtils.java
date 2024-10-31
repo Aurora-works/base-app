@@ -5,18 +5,23 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import org.aurora.base.app.common.CommonConstant;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 
+@Component
 public class JWTUtils {
+
+    @Value("${custom-config.jwt.secret}")
+    private String jwtSecret;
 
     /**
      * 校验 token 是否正确
      */
-    public static boolean verify(String token, String subject) {
+    public boolean verify(String token, String subject) {
         try {
-            Algorithm algorithm = Algorithm.HMAC256(CommonConstant.JWT_SECRET);
+            Algorithm algorithm = Algorithm.HMAC256(jwtSecret);
             JWT.require(algorithm)
                     .withSubject(subject)
                     .build()
@@ -30,7 +35,7 @@ public class JWTUtils {
     /**
      * 获取 token 中 claim 为 sub 的值
      */
-    public static String getSubject(String token) {
+    public String getSubject(String token) {
         try {
             DecodedJWT jwt = JWT.decode(token);
             return jwt.getSubject();
@@ -42,8 +47,8 @@ public class JWTUtils {
     /**
      * 生成 token
      */
-    public static String sign(String subject) {
-        Algorithm algorithm = Algorithm.HMAC256(CommonConstant.JWT_SECRET);
+    public String sign(String subject) {
+        Algorithm algorithm = Algorithm.HMAC256(jwtSecret);
         return JWT.create()
                 .withSubject(subject)
                 .withIssuedAt(Instant.now())

@@ -1,3 +1,6 @@
+custom-config:
+  jwt:
+    secret: jwt secret string
 spring:
   application:
     name: base-app

@@ -30,11 +30,6 @@ public interface CommonConstant {
     Duration TOKEN_EXPIRE_TIME = Duration.ofHours(3);
 
     /**
-     * JWT 密钥
-     */
-    String JWT_SECRET = "Wxwqy1GfQP4o5m4LDLOcGozVBOJBvSWOsLsLI6hAGLm6Ibbz5dfkSDCLpMrlPs6z";
-
-    /**
      * Exception 在 RequestAttribute 中的名称
      */
     String REQUEST_ATTRIBUTE_EXCEPTION = "exception";

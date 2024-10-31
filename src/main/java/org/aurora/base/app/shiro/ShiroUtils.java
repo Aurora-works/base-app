@@ -23,11 +23,13 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class ShiroUtils {
     @Autowired
-    public ShiroUtils(RedisUtils redisUtils, SysUserService userService) {
+    public ShiroUtils(JWTUtils jwtUtils, RedisUtils redisUtils, SysUserService userService) {
+        this.jwtUtils = jwtUtils;
         this.redisUtils = redisUtils;
         this.userService = userService;
     }
 
+    private final JWTUtils jwtUtils;
     private final RedisUtils redisUtils;
     private final SysUserService userService;
 
@@ -71,13 +73,34 @@ public class ShiroUtils {
         if (!generatePassword(password, user.getSalt()).equals(user.getPassword())) {
             throw new IncorrectCredentialsException();
         }
-        String token = JWTUtils.sign(user.getId().toString());
+        String token = sign(user.getId().toString());
         redisUtils.set(
                 tokenRedisKey(token, user.getId().toString()),
                 null,
                 CommonConstant.TOKEN_EXPIRE_TIME.toMillis(),
                 TimeUnit.MILLISECONDS);
         return token;
+    }
+
+    /**
+     * 校验 token 是否正确
+     */
+    public boolean verify(String token, String subject) {
+        return jwtUtils.verify(token, subject);
+    }
+
+    /**
+     * 获取 token 中 claim 为 sub 的值
+     */
+    public String getSubject(String token) {
+        return jwtUtils.getSubject(token);
+    }
+
+    /**
+     * 生成 token
+     */
+    public String sign(String subject) {
+        return jwtUtils.sign(subject);
     }
 
     /**

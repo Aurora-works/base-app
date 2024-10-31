@@ -66,9 +66,9 @@ public class SysUserRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String token = ((JWTToken) authenticationToken).getToken();
-        String subject = JWTUtils.getSubject(token); // userId
+        String subject = shiroUtils.getSubject(token); // userId
         // 校验 token 是否正确
-        if (subject == null || !JWTUtils.verify(token, subject)) {
+        if (subject == null || !shiroUtils.verify(token, subject)) {
             throw new IncorrectCredentialsException(token);
         }
         // 校验 token 是否过期
