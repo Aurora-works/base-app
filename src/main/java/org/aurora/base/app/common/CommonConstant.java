@@ -50,4 +50,9 @@ public interface CommonConstant {
      * Shiro 重复哈希迭代的次数
      */
     int SHIRO_HASH_ITERATIONS = 1;
+
+    /**
+     * 是否保存 IP 地址
+     */
+    boolean SAVE_IP = false;
 }
