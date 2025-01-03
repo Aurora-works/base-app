@@ -1,5 +1,6 @@
 package org.aurora.base.app.controller;
 
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.aurora.base.app.common.Result;
 import org.aurora.base.app.common.validation.Password;
 import org.aurora.base.app.shiro.ShiroUtils;
@@ -26,5 +27,15 @@ public class LoginController {
             @RequestParam @Password String password) {
         String token = shiroUtils.loginByPassword(username, password);
         return Result.success(token);
+    }
+
+    /**
+     * 退出系统
+     */
+    @PostMapping("/logout")
+    @RequiresAuthentication
+    public Result<?> logout() {
+        shiroUtils.logout();
+        return Result.success();
     }
 }

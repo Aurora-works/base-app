@@ -30,7 +30,8 @@ public class SysUserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        Long userId = (Long) principalCollection.getPrimaryPrincipal();
+        String token = (String) principalCollection.getPrimaryPrincipal();
+        Long userId = Long.valueOf(shiroUtils.getSubject(token));
         List<AuthDTO> auths = userMapper.findAuthByUserId(userId);
         Set<String> roles = new HashSet<>();
         Set<String> permissions = new HashSet<>();
@@ -78,7 +79,7 @@ public class SysUserRealm extends AuthorizingRealm {
         // 刷新 token 生命周期
         shiroUtils.refreshToken(token, subject);
         return new SimpleAuthenticationInfo(
-                Long.valueOf(subject), // userId
+                token,
                 token,
                 getName()
         );

@@ -35,7 +35,7 @@ public class JWTUtilsTest {
     @Test
     @Order(3)
     void testGetSubject() {
-        String subject = jwtUtils.getSubject(token);
+        String subject = JWTUtils.getSubject(token);
         System.out.println(subject);
     }
 }

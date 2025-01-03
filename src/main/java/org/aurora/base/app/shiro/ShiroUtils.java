@@ -18,6 +18,7 @@ import org.aurora.base.app.util.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -93,7 +94,7 @@ public class ShiroUtils {
      * 获取 token 中 claim 为 sub 的值
      */
     public String getSubject(String token) {
-        return jwtUtils.getSubject(token);
+        return JWTUtils.getSubject(token);
     }
 
     /**
@@ -127,11 +128,19 @@ public class ShiroUtils {
      * 获取当前用户id
      */
     public static Long getCurrentUserId() {
-        Long userId = (Long) SecurityUtils.getSubject().getPrincipal();
-        if (userId == null) {
+        String token = (String) SecurityUtils.getSubject().getPrincipal();
+        if (token == null) {
             return TodoUser.USER_NO_LOGIN;
         }
-        return userId;
+        return Long.valueOf(Objects.requireNonNull(JWTUtils.getSubject(token)));
+    }
+
+    /**
+     * 退出系统
+     */
+    public void logout() {
+        String token = (String) SecurityUtils.getSubject().getPrincipal();
+        redisUtils.delete(tokenRedisKey(token, JWTUtils.getSubject(token)));
     }
 
     /**

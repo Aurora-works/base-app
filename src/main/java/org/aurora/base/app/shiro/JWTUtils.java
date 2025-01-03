@@ -35,7 +35,7 @@ public class JWTUtils {
     /**
      * 获取 token 中 claim 为 sub 的值
      */
-    public String getSubject(String token) {
+    public static String getSubject(String token) {
         try {
             DecodedJWT jwt = JWT.decode(token);
             return jwt.getSubject();
