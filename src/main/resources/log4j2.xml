@@ -8,7 +8,7 @@
     <Properties>
         <Property name="console_pattern" value="%d{ABSOLUTE} [%p] [%t] %m%n"/>
         <Property name="file_pattern" value="%d [%p] [%t] %m%n"/>
-        <Property name="file_dir" value="../logs/base-app"/>
+        <Property name="file_dir" value="../base-app/logs"/>
     </Properties>
 
     <Appenders>

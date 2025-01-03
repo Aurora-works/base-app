@@ -6,14 +6,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.aurora.base.app.common.CommonConstant;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Log4j2
+@Slf4j
 public class JSONUtils {
 
     public static String writeValueAsString(Object value) {
